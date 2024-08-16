@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 1rem;
+  margin: 1.5rem;
+  color: red;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  color: red;
+}
+
+.title {
+  display: flex;
+}
