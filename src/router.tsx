@@ -1,16 +1,15 @@
-import path from "node:path/win32";
-import { element } from "prop-types";
 import { createBrowserRouter } from "react-router-dom";
 import Home from "./routes/Home/Home";
 import Login from "./routes/Login/Login";
-import Error from "./routes/Error/Error";
+import ErrorPage from "./routes/ErrorPage/ErrorPage";
+import { Movie } from "./components/Movie/Movie";
 
 
 export const getRoutes = () => [
     {
         path: "/",
         element: <Home />,
-        // errorElement: <ErrorPage />,
+        errorElement: <ErrorPage />,
         // loader: homeLoader(),
     },
     {
@@ -19,7 +18,12 @@ export const getRoutes = () => [
         // loader: loginLoader(),
     }, {
         path: "/error",
-        element: <Error />,
-    }
+        element: <ErrorPage />,
+    },
+    {
+        path: "/movie/:movieId",
+        element: <Movie />,
+        errorElement: <ErrorPage />,
+    },
 ];
 export const getRouter = () => createBrowserRouter(getRoutes());

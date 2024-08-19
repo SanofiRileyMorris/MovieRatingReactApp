@@ -1,15 +1,31 @@
-.SearchButton {
-  display: flex;
-  align-items: center;
+.error {
   justify-content: center;
-  margin: 5rem 0 5rem 0;
-}
-
-.movieItems {
   display: flex;
-  margin: 0 2rem 0 2rem;
+  margin: 10rem 0 0 0;
+  color: red;
 }
 
-.meta {
-  color: black;
+.customDivider {
+  border: 0;
+  height: 0.06rem;
+  background: #ccc;
+  margin: 1rem 0.5rem;
+}
+
+.movieItem:hover {
+  background-color: lightgrey;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.votes {
+  margin: 1rem 0;
+  font-weight: bold;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0 5rem 0;
+  z-index: 1;
 }

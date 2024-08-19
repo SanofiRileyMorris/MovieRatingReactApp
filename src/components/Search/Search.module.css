@@ -2,3 +2,32 @@
   margin: 2rem 20rem 0 20rem;
   background-color: white;
 }
+
+.SearchButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5rem 0 5rem 0;
+}
+
+.movieItems {
+  display: flex;
+  margin: 0 2rem 0 2rem;
+}
+
+.meta {
+  color: black;
+}
+
+.loading {
+  justify-content: center;
+  display: flex;
+  margin: 10rem 0 0 0;
+}
+
+.error {
+  justify-content: center;
+  display: flex;
+  margin: 10rem 0 0 0;
+  color: red;
+}

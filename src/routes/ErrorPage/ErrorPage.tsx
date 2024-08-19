@@ -1,7 +1,7 @@
-import styles from "./Error.module.css";
+import styles from "./ErrorPage.module.css";
 
 
-const Error = () => {
+const ErrorPage = () => {
 
     return (
         <div className={styles.error}>
@@ -12,4 +12,4 @@ const Error = () => {
     );
 };
 
-export default Error;
+export default ErrorPage;

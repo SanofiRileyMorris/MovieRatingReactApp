@@ -1,64 +1,96 @@
 import { Box, Container } from "@mui/material";
 import { useEffect, useState } from "react";
-import { RedButton } from "../StyledMUI/StyledMUI";
+import { MoviesApi } from "../../types/api";
 import styles from "./MovieList.module.css";
+import { useNavigate } from "react-router";
+import { Loading } from "../Loading/Loading";
+import { RedPagination } from "../StyledMUI/StyledMUI";
 
-type MovieApi = {
-    title: string;
-    id: string;
-    poster_path: string;
-}
 
-async function getTopRatedMovies(): Promise<MovieApi[]> {
-    return fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200`, {
+async function getTopRatedMovies(page: number): Promise<{ results: MoviesApi[], total_pages: number }> {
+    const url = `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=${page}`;
+    const options = {
+        method: 'GET',
         headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_ACCESS_TOKEN}`,
-            accept: "application/json"
+            accept: 'application/json',
+            Authorization: "Bearer " + process.env.REACT_APP_ACCESS_TOKEN,
         }
-    })
-        .then(result => result.json())
-        .then(data => data.results as MovieApi[]);
-}
+    };
 
+    return fetch(url, options)
+        .then(result => result.json())
+        .then(data => ({
+            results: data.results as MoviesApi[],
+            total_pages: data.total_pages
+        }));
+}
 
 export const MovieList = () => {
-    const [movies, setMovieData] = useState<MovieApi[] | null>();
+    const [movies, setMovies] = useState<MoviesApi[]>([]);
     const [loadingState, setLoadingState] = useState(false);
     const [isError, setIsError] = useState(false);
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setLoadingState(true);
-        getTopRatedMovies().then((movies) => {
-            setMovieData(movies);
-            setLoadingState(false);
-        })
-        .catch(() => {
-            setIsError(true);
-        });
-    }, [])
+        getTopRatedMovies(currentPage)
+            .then((data) => {
+                setMovies(data.results);
+                setTotalPages(data.total_pages);
+                setLoadingState(false);
+            })
+            .catch(() => {
+                setIsError(true);
+                setLoadingState(false);
+            });
+    }, [currentPage]);
 
-    if(loadingState) {
-        return <div>Loading...</div>
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setCurrentPage(value);
+    };
+
+    if (loadingState) {
+        return (
+            <Loading />
+        );
     }
 
-    if(isError) {
-        return <div>Something went wrong</div>
+    if (isError) {
+        return (
+            <div className={styles.error}>
+                <h2>Something went wrong</h2>
+            </div>
+        );
     }
 
-    if(!movies) {
-        return null;
-    }
-
-    // paginate would be nice 
     return (
         <div>
-            {movies.map((movie) => (
-                <div key={movie.id} onClick={() => navigate(`/movie/${id}`)}>
-                    <h1>{movie.title}</h1>
-                    <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
-                </div>
-            ))}
+            <Container sx={{ zIndex: "-1" }}>
+                <Box sx={{ bgcolor: 'white', padding: "3rem", borderRadius: "2rem" }}>
+                    {movies.map((movie, index) => (
+                        <div key={movie.id}
+                            onClick={() => navigate(`/movie/${movie.id}`)}
+                            className={styles.movieItem}
+                        >
+                            <h1>{movie.title}</h1>
+                            <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
+                            <div className={styles.votes}>
+                                Averaged {movie.vote_average} over {movie.vote_count} votes
+                            </div>
+                            {index < movies.length - 1 &&
+                                <div className={styles.customDivider} />}
+                        </div>
+                    ))}
+                </Box>
+                <RedPagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    className={styles.pagination}
+                />
+            </Container>
         </div>
     );
 };
