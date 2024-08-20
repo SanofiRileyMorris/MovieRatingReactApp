@@ -29,3 +29,9 @@
   margin: 2rem 0 5rem 0;
   z-index: 1;
 }
+
+.quickSearch {
+  margin: 0 0 1rem 0;
+  display: flex;
+  justify-content: space-evenly;
+}

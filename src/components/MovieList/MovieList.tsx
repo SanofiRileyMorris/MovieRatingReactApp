@@ -2,18 +2,18 @@ import { Box, Container } from "@mui/material";
 import { useEffect, useState } from "react";
 import { MoviesApi } from "../../types/api";
 import styles from "./MovieList.module.css";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { Loading } from "../Loading/Loading";
-import { RedPagination } from "../StyledMUI/StyledMUI";
+import { RedButton, RedPagination } from "../StyledMUI/StyledMUI";
 
 
-async function getTopRatedMovies(page: number): Promise<{ results: MoviesApi[], total_pages: number }> {
-    const url = `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=${page}`;
+async function listMovies(searchType: string, page: number): Promise<{ results: MoviesApi[], total_pages: number }> {
+    const url = `https://api.themoviedb.org/3/movie/${searchType}?language=en-US&page=${page}`;
     const options = {
         method: 'GET',
         headers: {
             accept: 'application/json',
-            Authorization: "Bearer " + process.env.REACT_APP_ACCESS_TOKEN,
+            Authorization: `Bearer ${process.env.REACT_APP_ACCESS_TOKEN}`,
         }
     };
 
@@ -26,16 +26,24 @@ async function getTopRatedMovies(page: number): Promise<{ results: MoviesApi[], 
 }
 
 export const MovieList = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const [movies, setMovies] = useState<MoviesApi[]>([]);
     const [loadingState, setLoadingState] = useState(false);
     const [isError, setIsError] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const navigate = useNavigate();
 
+    const params = new URLSearchParams(location.search);
+    const movieSearchType = params.get("searchType") || "";
+    const currentPage = parseInt(params.get("page") || "1", 10);
+
+    const handleClick = (searchType: string) => {
+        navigate(`?searchType=${searchType}&page=1`);
+    };
     useEffect(() => {
         setLoadingState(true);
-        getTopRatedMovies(currentPage)
+        listMovies(movieSearchType, currentPage)
             .then((data) => {
                 setMovies(data.results);
                 setTotalPages(data.total_pages);
@@ -45,10 +53,10 @@ export const MovieList = () => {
                 setIsError(true);
                 setLoadingState(false);
             });
-    }, [currentPage]);
+    }, [currentPage, movieSearchType]);
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        setCurrentPage(value);
+        navigate(`?searchType=${movieSearchType}&page=${value}`);
     };
 
     if (loadingState) {
@@ -68,28 +76,44 @@ export const MovieList = () => {
     return (
         <div>
             <Container sx={{ zIndex: "-1" }}>
-                <Box sx={{ bgcolor: 'white', padding: "3rem", borderRadius: "2rem" }}>
-                    {movies.map((movie, index) => (
-                        <div key={movie.id}
-                            onClick={() => navigate(`/movie/${movie.id}`)}
-                            className={styles.movieItem}
-                        >
-                            <h1>{movie.title}</h1>
-                            <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
-                            <div className={styles.votes}>
-                                Averaged {movie.vote_average} over {movie.vote_count} votes
-                            </div>
-                            {index < movies.length - 1 &&
-                                <div className={styles.customDivider} />}
-                        </div>
-                    ))}
+                <Box className={styles.quickSearch}>
+                    <RedButton onClick={() => handleClick("top_rated")}>
+                        Top Rated
+                    </RedButton>
+                    <RedButton onClick={() => handleClick("popular")}>
+                        Popular
+                    </RedButton>
+                    <RedButton onClick={() => handleClick("now_playing")}>
+                        Now Playing
+                    </RedButton>
+                    <RedButton onClick={() => handleClick("upcoming")}>
+                        Upcoming
+                    </RedButton>
                 </Box>
-                <RedPagination
-                    count={totalPages}
-                    page={currentPage}
-                    onChange={handlePageChange}
-                    className={styles.pagination}
-                />
+                {movies &&
+                    <div><Box sx={{ bgcolor: 'white', padding: "3rem", borderRadius: "2rem" }}>
+                        {movies.map((movie, index) => (
+                            <div key={movie.id}
+                                onClick={() => navigate(`/movie/${movie.id}`)}
+                                className={styles.movieItem}
+                            >
+                                <h1>{movie.title}</h1>
+                                <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
+                                <div className={styles.votes}>
+                                    Averaged {movie.vote_average} over {movie.vote_count} votes
+                                </div>
+                                {index < movies.length - 1 &&
+                                    <div className={styles.customDivider} />}
+                            </div>
+                        ))}
+                    </Box>
+                        <RedPagination
+                            count={totalPages}
+                            page={currentPage}
+                            onChange={handlePageChange}
+                            className={styles.pagination}
+                        />
+                    </div>}
             </Container>
         </div>
     );
