@@ -10,8 +10,10 @@ export const Search = () => {
   const [movies, setMovieData] = useState<MoviesApi[] | null>()
   const [isError, setIsError] = useState(false)
   const [search, setSearch] = useState<string>('')
+
   const navigate = useNavigate()
-  const debounceSearchTerm = useDebouncedValue(search, 500);
+
+  const debounceSearchTerm = useDebouncedValue(search, 500)
 
   useEffect(() => {
     if (debounceSearchTerm.trim() === '') {
@@ -45,7 +47,7 @@ export const Search = () => {
 
   const options = movies?.map((movie) => ({
     id: movie.id,
-    label: movie.title
+    label: movie.title,
   }))
 
   return (
@@ -54,7 +56,9 @@ export const Search = () => {
         freeSolo
         options={options ?? []}
         filterOptions={(x) => x}
-        onChange={(_event, value) => handleSearch((value as NonNullable<(typeof options)>[number])?.id)}
+        onChange={(_event, value) =>
+          handleSearch((value as NonNullable<typeof options>[number])?.id)
+        }
         renderInput={(params) => (
           <TextField
             {...params}

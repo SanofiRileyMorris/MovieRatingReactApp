@@ -1,0 +1,27 @@
+.outerContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 0.6rem;
+}
+
+.innerContainer {
+  flex: 1;
+}
+
+.innerContainer span {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.innerContainer h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.backButton {
+  display: flex;
+  justify-content: right;
+}

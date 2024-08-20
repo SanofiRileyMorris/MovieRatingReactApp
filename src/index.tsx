@@ -4,11 +4,14 @@ import './index.css'
 import reportWebVitals from './reportWebVitals'
 import { RouterProvider } from 'react-router-dom'
 import { getRouter } from './router'
+import { SupabaseProvider } from './supabase/SupabaseProvider'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <RouterProvider router={getRouter()} />
+    <SupabaseProvider>
+      <RouterProvider router={getRouter()} />
+    </SupabaseProvider>
   </React.StrictMode>
 )
 

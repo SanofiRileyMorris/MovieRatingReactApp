@@ -5,7 +5,7 @@ import styles from './MovieList.module.css'
 import { useLocation, useNavigate } from 'react-router'
 import { Loading } from '../Loading/Loading'
 import { RedButton, RedPagination } from '../StyledMUI/StyledMUI'
-import { listMovies } from '../../api'
+import { searchMovies } from '../../api'
 
 export const MovieList = () => {
   const navigate = useNavigate()
@@ -25,10 +25,10 @@ export const MovieList = () => {
   }
 
   useEffect(() => {
-    if (movieSearchType === "") return;
+    if (movieSearchType === '') return
 
     setLoadingState(true)
-    listMovies(movieSearchType, currentPage)
+    searchMovies(movieSearchType, currentPage)
       .then((data) => {
         setMovies(data.results)
         setTotalPages(data.total_pages)
@@ -58,9 +58,6 @@ export const MovieList = () => {
       </div>
     )
   }
-
-  console.log(movies);
-
 
   return (
     <div>

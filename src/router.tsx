@@ -3,18 +3,21 @@ import Home from './routes/Home/Home'
 import Login from './routes/Login/Login'
 import ErrorPage from './routes/ErrorPage/ErrorPage'
 import { Movie } from './components/Movie/Movie'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 
 export const getRoutes = () => [
   {
     path: '/',
-    element: <Home />,
+    element: (
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+    ),
     errorElement: <ErrorPage />,
-    // loader: homeLoader(),
   },
   {
     path: '/login',
     element: <Login />,
-    // loader: loginLoader(),
   },
   {
     path: '/error',
@@ -22,7 +25,11 @@ export const getRoutes = () => [
   },
   {
     path: '/movie/:movieId',
-    element: <Movie />,
+    element: (
+      <ProtectedRoute>
+        <Movie />
+      </ProtectedRoute>
+    ),
     errorElement: <ErrorPage />,
   },
 ]
