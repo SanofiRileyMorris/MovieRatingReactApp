@@ -5,27 +5,7 @@ import styles from './MovieList.module.css'
 import { useLocation, useNavigate } from 'react-router'
 import { Loading } from '../Loading/Loading'
 import { RedButton, RedPagination } from '../StyledMUI/StyledMUI'
-
-async function listMovies(
-  searchType: string,
-  page: number
-): Promise<{ results: MoviesApi[]; total_pages: number }> {
-  const url = `https://api.themoviedb.org/3/movie/${searchType}?language=en-US&page=${page}`
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${process.env.REACT_APP_ACCESS_TOKEN}`,
-    },
-  }
-
-  return fetch(url, options)
-    .then((result) => result.json())
-    .then((data) => ({
-      results: data.results as MoviesApi[],
-      total_pages: data.total_pages,
-    }))
-}
+import { listMovies } from '../../api'
 
 export const MovieList = () => {
   const navigate = useNavigate()
@@ -43,7 +23,10 @@ export const MovieList = () => {
   const handleClick = (searchType: string) => {
     navigate(`?searchType=${searchType}&page=1`)
   }
+
   useEffect(() => {
+    if (movieSearchType === "") return;
+
     setLoadingState(true)
     listMovies(movieSearchType, currentPage)
       .then((data) => {
@@ -76,6 +59,9 @@ export const MovieList = () => {
     )
   }
 
+  console.log(movies);
+
+
   return (
     <div>
       <Container sx={{ zIndex: '-1' }}>
@@ -91,7 +77,7 @@ export const MovieList = () => {
             Upcoming
           </RedButton>
         </Box>
-        {movies && (
+        {movies.length !== 0 && (
           <div>
             <Box
               sx={{ bgcolor: 'white', padding: '3rem', borderRadius: '2rem' }}

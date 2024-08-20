@@ -1,6 +1,6 @@
 export type MoviesApi = {
   title: string
-  id: string
+  id: number
   poster_path: string
   vote_average: number
   vote_count: number
@@ -8,7 +8,7 @@ export type MoviesApi = {
 
 export type MovieApi = {
   title: string
-  id: string
+  id: number
   budget: number
   poster_path: string
   homepage: string
