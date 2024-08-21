@@ -1,29 +1,15 @@
 import styles from './Login.module.css'
 import { TextField } from '@mui/material'
 import { useState } from 'react'
-import { useNavigate } from 'react-router'
 import { RedButton } from '../../components/StyledMUI/StyledMUI'
-import { signIn } from '../../hooks/use-signin'
+import useSignIn from '../../hooks/use-signin'
 import { Loading } from '../../components/Loading/Loading'
 
 const Login = () => {
-  const navigate = useNavigate()
-
-  const [loadingState, setLoadingState] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLogin = async () => {
-    setLoadingState(true)
-    try {
-      await signIn(email, password, navigate)
-    }
-    catch (errorMsg) {
-      navigate('/error')
-      setLoadingState(false)
-    }
-    navigate('/')
-  }
+  const { signIn, loadingState } = useSignIn(email, password)
 
   if (loadingState) return <Loading />
 
@@ -55,7 +41,7 @@ const Login = () => {
         <div className={styles.buttonWrapper}>
           <RedButton
             className={styles.button}
-            onClick={handleLogin}
+            onClick={() => signIn(email, password)}
             variant="contained"
           >
             Login
