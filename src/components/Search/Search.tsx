@@ -1,33 +1,18 @@
 import { Autocomplete, TextField } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getMovies } from '../../api'
+import { useSearchMoviesQuery } from '../../hooks/queries/useSearchMoviesQuery'
 import { useDebouncedValue } from '../../hooks/use-debounce'
-import { MoviesApi } from '../../types/api'
 import styles from './Search.module.css'
 
 export const Search = () => {
-  const [movies, setMovieData] = useState<MoviesApi[] | null>()
-  const [isError, setIsError] = useState(false)
   const [search, setSearch] = useState<string>('')
 
   const navigate = useNavigate()
 
   const debounceSearchTerm = useDebouncedValue(search, 500)
 
-  useEffect(() => {
-    if (debounceSearchTerm.trim() === '') {
-      setMovieData(null)
-      return
-    }
-    getMovies(debounceSearchTerm)
-      .then((movies) => {
-        setMovieData(movies)
-      })
-      .catch(() => {
-        setIsError(true)
-      })
-  }, [debounceSearchTerm])
+  const { data: movies, isError } = useSearchMoviesQuery(debounceSearchTerm)
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value)

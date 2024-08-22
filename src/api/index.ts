@@ -1,7 +1,12 @@
 import { supabase } from '../supabase/supabaseClient'
 import { MovieApi, MoviesApi } from '../types/api'
 
-export async function getMovie(movieId: string): Promise<MovieApi> {
+export async function getMovie({
+  queryKey,
+}: {
+  queryKey: string[]
+}): Promise<MovieApi> {
+  const movieId = queryKey[1]
   const url = `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`
   const options = {
     method: 'GET',
@@ -16,7 +21,12 @@ export async function getMovie(movieId: string): Promise<MovieApi> {
     .then((res) => res as MovieApi)
 }
 
-export async function getMovies(searchMovie: string): Promise<MoviesApi[]> {
+export async function searchMovies({
+  queryKey,
+}: {
+  queryKey: string[]
+}): Promise<MoviesApi[]> {
+  const searchMovie = queryKey[1]
   const url = `https://api.themoviedb.org/3/search/movie?query=${searchMovie}`
   const options = {
     method: 'GET',
@@ -30,10 +40,18 @@ export async function getMovies(searchMovie: string): Promise<MoviesApi[]> {
     .then((data) => data.results as MoviesApi[])
 }
 
-export async function searchMovies(
-  searchType: string,
-  page: number
+export async function listMovies(
+  {
+    queryKey,
+  }: {
+    queryKey: string[]
+  }
+  // searchType: string,
+  // page: number
 ): Promise<{ results: MoviesApi[]; total_pages: number }> {
+  const searchType = queryKey[1]
+  const page = queryKey[2]
+
   const url = `https://api.themoviedb.org/3/movie/${searchType}?language=en-US&page=${page}`
   const options = {
     method: 'GET',

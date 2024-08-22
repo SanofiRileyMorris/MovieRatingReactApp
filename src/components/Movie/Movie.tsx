@@ -1,35 +1,18 @@
 import { Box } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { MovieApi } from '../../types/api'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Loading } from '../Loading/Loading'
-import { getMovie } from '../../api'
 import styles from './Movie.module.css'
 import { RedButton } from '../StyledMUI/StyledMUI'
+import { useGetMovieQuery } from '../../hooks/queries/useGetMovieQuery'
 
 export const Movie = () => {
-  const [movie, setMovieData] = useState<MovieApi>()
-  const [loadingState, setLoadingState] = useState(false)
-  const [isError, setIsError] = useState(false)
-
   const navigate = useNavigate()
   const location = useLocation()
 
   const movieId = location.pathname.split('/')[2]
+  const { data: movie, isLoading, isError } = useGetMovieQuery(movieId)
 
-  useEffect(() => {
-    setLoadingState(true)
-    getMovie(movieId)
-      .then((data) => {
-        setMovieData(data)
-        setLoadingState(false)
-      })
-      .catch(() => {
-        setIsError(true)
-      })
-  }, [movieId])
-
-  if (loadingState) {
+  if (isLoading) {
     return <Loading />
   }
 
