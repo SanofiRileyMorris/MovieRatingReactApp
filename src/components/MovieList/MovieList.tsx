@@ -1,53 +1,45 @@
 import { Box, Container } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { MoviesApi } from '../../types/api'
+import { useState, useEffect } from 'react'
 import styles from './MovieList.module.css'
 import { useLocation, useNavigate } from 'react-router'
 import { Loading } from '../Loading/Loading'
 import { RedButton, RedPagination } from '../StyledMUI/StyledMUI'
-import { searchMovies } from '../../api'
+import { useListMoviesQuery } from '../../hooks/queries/useListMoviesQuery'
 
 export const MovieList = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const [movies, setMovies] = useState<MoviesApi[]>([])
-  const [loadingState, setLoadingState] = useState(false)
-  const [isError, setIsError] = useState(false)
   const [totalPages, setTotalPages] = useState(1)
 
   const params = new URLSearchParams(location.search)
   const movieSearchType = params.get('searchType') || ''
   const currentPage = parseInt(params.get('page') || '1', 10)
 
+  const {
+    data: moviesData,
+    isLoading,
+    isError,
+  } = useListMoviesQuery(movieSearchType, currentPage)
+
+  useEffect(() => {
+    if (moviesData?.total_pages) {
+      setTotalPages(moviesData.total_pages)
+    }
+  }, [moviesData])
+
   const handleClick = (searchType: string) => {
     navigate(`?searchType=${searchType}&page=1`)
   }
 
-  useEffect(() => {
-    if (movieSearchType === '') return
-
-    setLoadingState(true)
-    searchMovies(movieSearchType, currentPage)
-      .then((data) => {
-        setMovies(data.results)
-        setTotalPages(data.total_pages)
-        setLoadingState(false)
-      })
-      .catch(() => {
-        setIsError(true)
-        setLoadingState(false)
-      })
-  }, [currentPage, movieSearchType])
-
   const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
+    _event: React.ChangeEvent<unknown>,
     value: number
   ) => {
     navigate(`?searchType=${movieSearchType}&page=${value}`)
   }
 
-  if (loadingState) {
+  if (isLoading) {
     return <Loading />
   }
 
@@ -59,6 +51,7 @@ export const MovieList = () => {
     )
   }
 
+  const movies = moviesData?.results || []
   return (
     <div>
       <Container sx={{ zIndex: '-1' }}>
@@ -74,12 +67,12 @@ export const MovieList = () => {
             Upcoming
           </RedButton>
         </Box>
-        {movies.length !== 0 && (
+        {movies?.length !== 0 && (
           <div>
             <Box
               sx={{ bgcolor: 'white', padding: '3rem', borderRadius: '2rem' }}
             >
-              {movies.map((movie, index) => (
+              {movies?.map((movie, index) => (
                 <div
                   key={movie.id}
                   onClick={() => navigate(`/movie/${movie.id}`)}

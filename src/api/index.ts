@@ -40,15 +40,11 @@ export async function searchMovies({
     .then((data) => data.results as MoviesApi[])
 }
 
-export async function listMovies(
-  {
-    queryKey,
-  }: {
-    queryKey: string[]
-  }
-  // searchType: string,
-  // page: number
-): Promise<{ results: MoviesApi[]; total_pages: number }> {
+export async function listMovies({
+  queryKey,
+}: {
+  queryKey: string[]
+}): Promise<{ results: MoviesApi[]; total_pages: number }> {
   const searchType = queryKey[1]
   const page = queryKey[2]
 
