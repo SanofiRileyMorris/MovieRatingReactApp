@@ -1,15 +1,24 @@
-.search {
-  margin: 2rem 20rem 0 20rem;
-  background-color: white;
+.searchContainer {
+  padding: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  max-width: 42rem;
+  margin: 2rem auto;
+}
+
+.searchInput {
+  width: 100%;
 }
 
 .error {
-  justify-content: center;
   display: flex;
-  margin: 10rem 0 0 0;
-  color: red;
-}
-
-.container {
-  margin: 0 0 5rem 0;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-color);
+  background-color: #ffebee;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  margin: 1rem auto;
+  width: 100%;
 }

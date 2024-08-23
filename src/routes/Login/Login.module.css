@@ -1,26 +1,42 @@
 .wrapper {
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  text-align: center;
-  gap: 1rem;
-  margin: 1.5rem;
-  color: red;
-}
-
-.buttonWrapper {
-  display: flex;
-  justify-content: space-evenly;
   align-items: center;
-  margin: 10rem 25rem 5rem 25rem;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f4f4f4;
 }
 
-.button {
-  margin: 0 45rem 0 45rem;
-  color: red;
+.wrapper h1 {
+  padding-left: 3rem;
+  font-weight: 700;
+}
+
+.credentialsContainer {
+  width: 100%;
+  padding: 2rem;
+  box-shadow: 0 0.1rem 0.6rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
   background-color: white;
 }
 
-.button:hover {
-  background-color: black;
+.credentials {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.credentials h3 {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.buttonWrapper {
+  margin-left: 3rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.button {
+  width: 100%;
 }

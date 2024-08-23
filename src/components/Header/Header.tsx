@@ -1,5 +1,5 @@
 import { signOut } from '../../api'
-import { RedButton } from '../StyledMUI/StyledMUI'
+import { StyledButton } from '../StyledMUI/StyledMUI'
 import styles from './Header.module.css'
 
 export const Header = () => {
@@ -16,9 +16,9 @@ export const Header = () => {
       <div className={styles.innerContainer}>
         <h1 className={styles.title}>Movie RateRrr</h1>
       </div>
-      <RedButton className={styles.logout} onClick={handleLogout}>
-        Logout
-      </RedButton>
+      <StyledButton onClick={handleLogout}>Logout</StyledButton>
     </header>
   )
 }
+
+export default Header

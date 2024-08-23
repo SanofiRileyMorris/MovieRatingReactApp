@@ -36,7 +36,7 @@ export const Search = () => {
   }))
 
   return (
-    <div className={styles.container}>
+    <div className={styles.searchContainer}>
       <Autocomplete
         freeSolo
         options={options ?? []}
@@ -51,7 +51,7 @@ export const Search = () => {
             onChange={handleSearchChange}
           />
         )}
-        className={styles.search}
+        className={styles.searchInput}
       />
     </div>
   )

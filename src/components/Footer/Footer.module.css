@@ -2,14 +2,15 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  align-items: center;
-  color: red;
-  position: fixed;
+  padding: 1rem 0;
+  background-color: #282c34;
+  color: #ffffff;
   bottom: 0;
-  right: 0;
-  padding: 0.5rem;
+  left: 0;
+  box-shadow: 0 -0.1rem 0.3rem rgba(0, 0, 0, 0.2);
+  font-size: 0.9rem;
 }
 
 .title {
-  display: flex;
+  margin: 0;
 }

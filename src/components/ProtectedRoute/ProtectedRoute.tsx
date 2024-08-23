@@ -15,14 +15,12 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
     const fetchSession = async () => {
       const { data } = await supabase.auth.getSession()
       setSession(data.session)
+
+      if (!data.session) navigate('/login')
     }
 
     fetchSession()
-  })
-
-  if (!session) {
-    navigate('/login')
-  }
+  }, [session])
 
   return <>{children}</>
 }

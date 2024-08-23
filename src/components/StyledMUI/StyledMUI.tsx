@@ -1,15 +1,15 @@
 import { styled } from '@mui/material/styles'
 import { Pagination, Button } from '@mui/material'
 
-export const RedButton = styled(Button)({
-  backgroundColor: 'red',
+export const StyledButton = styled(Button)({
+  backgroundColor: '#d32f2f',
   color: 'white',
   '&:hover': {
-    backgroundColor: 'darkred',
+    backgroundColor: '#b71c1c',
   },
 })
 
-export const RedPagination = styled(Pagination)({
+export const StyledPagination = styled(Pagination)({
   '& .MuiPaginationItem-root': {
     color: 'red',
     '&.Mui-selected': {

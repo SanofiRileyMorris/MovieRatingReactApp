@@ -1,37 +1,73 @@
-.error {
-  justify-content: center;
-  display: flex;
-  margin: 10rem 0 0 0;
-  color: red;
+.container {
+  margin: 2rem auto;
+  padding: 1rem;
 }
 
-.customDivider {
-  border: 0;
-  height: 0.06rem;
-  background: #ccc;
-  margin: 1rem 0.5rem;
+.movieItem {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 1.25rem;
+  margin-bottom: 0.6rem;
+  border: 0.1rem solid #e0e0e0;
+  border-radius: 0.5rem;
+  transition:
+    box-shadow 0.3s,
+    transform 0.3s;
 }
 
 .movieItem:hover {
-  background-color: lightgrey;
-  border-radius: 0.5rem;
+  transform: translateY(-0.4rem);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
   cursor: pointer;
 }
 
+.title {
+  font-size: 1.75rem;
+  color: var(--text-color);
+  margin-bottom: 0.3rem;
+}
+
 .votes {
-  margin: 1rem 0;
-  font-weight: bold;
+  font-size: 0.95rem;
+  color: #666;
+  font-weight: normal;
 }
 
 .pagination {
   display: flex;
   justify-content: center;
-  margin: 2rem 0 5rem 0;
-  z-index: 1;
+  margin: 2rem 0;
+  position: fixed;
+  bottom: 0.8rem;
+  padding: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 10rem;
+  background-color: #fff;
+  box-shadow: 0 -0.1rem 0.8rem rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .quickSearch {
-  margin: 0 0 1rem 0;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.button {
+  width: 20%;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-color);
+  background-color: #ffebee;
+  padding: 1rem;
+  margin: 2rem;
+  border-radius: 0.5rem;
+  width: 100%;
 }

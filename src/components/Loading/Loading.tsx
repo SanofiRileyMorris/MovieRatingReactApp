@@ -1,10 +1,10 @@
 import { CircularProgress } from '@mui/material'
 import styles from './Loading.module.css'
 
-export const Loading = () => {
+export const Loading = ({ size }: { size: number }) => {
   return (
     <div className={styles.loading}>
-      <CircularProgress sx={{ color: 'red' }} />
+      <CircularProgress size={size} sx={{ color: 'red' }} />
     </div>
   )
 }

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import styles from './MovieList.module.css'
 import { useLocation, useNavigate } from 'react-router'
 import { Loading } from '../Loading/Loading'
-import { RedButton, RedPagination } from '../StyledMUI/StyledMUI'
+import { StyledButton, StyledPagination } from '../StyledMUI/StyledMUI'
 import { useListMoviesQuery } from '../../hooks/queries/useListMoviesQuery'
 
 export const MovieList = () => {
@@ -40,7 +40,7 @@ export const MovieList = () => {
   }
 
   if (isLoading) {
-    return <Loading />
+    return <Loading size={40} />
   }
 
   if (isError) {
@@ -56,20 +56,35 @@ export const MovieList = () => {
     <div>
       <Container sx={{ zIndex: '-1' }}>
         <Box className={styles.quickSearch}>
-          <RedButton onClick={() => handleClick('top_rated')}>
+          <StyledButton
+            className={styles.button}
+            onClick={() => handleClick('top_rated')}
+          >
             Top Rated
-          </RedButton>
-          <RedButton onClick={() => handleClick('popular')}>Popular</RedButton>
-          <RedButton onClick={() => handleClick('now_playing')}>
+          </StyledButton>
+          <StyledButton
+            className={styles.button}
+            onClick={() => handleClick('popular')}
+          >
+            Popular
+          </StyledButton>
+          <StyledButton
+            className={styles.button}
+            onClick={() => handleClick('now_playing')}
+          >
             Now Playing
-          </RedButton>
-          <RedButton onClick={() => handleClick('upcoming')}>
+          </StyledButton>
+          <StyledButton
+            className={styles.button}
+            onClick={() => handleClick('upcoming')}
+          >
             Upcoming
-          </RedButton>
+          </StyledButton>
         </Box>
         {movies?.length !== 0 && (
           <div>
             <Box
+              className={styles.container}
               sx={{ bgcolor: 'white', padding: '3rem', borderRadius: '2rem' }}
             >
               {movies?.map((movie, index) => (
@@ -78,26 +93,24 @@ export const MovieList = () => {
                   onClick={() => navigate(`/movie/${movie.id}`)}
                   className={styles.movieItem}
                 >
-                  <h1>{movie.title}</h1>
-                  <img
+                  <h2>{movie.title}</h2>
+                  {/* <img
                     src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
                     alt={movie.title}
-                  />
-                  <div className={styles.votes}>
+                  /> */}
+                  <p className={styles.votes}>
                     Averaged {movie.vote_average} over {movie.vote_count} votes
-                  </div>
-                  {index < movies.length - 1 && (
-                    <div className={styles.customDivider} />
-                  )}
+                  </p>
                 </div>
               ))}
             </Box>
-            <RedPagination
-              count={totalPages}
-              page={currentPage}
-              onChange={handlePageChange}
-              className={styles.pagination}
-            />
+            <div className={styles.pagination}>
+              <StyledPagination
+                count={totalPages}
+                page={currentPage}
+                onChange={handlePageChange}
+              />
+            </div>
           </div>
         )}
       </Container>
