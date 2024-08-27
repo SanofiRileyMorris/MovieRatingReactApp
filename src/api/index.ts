@@ -7,7 +7,7 @@ export async function getMovie({
   queryKey: string[]
 }): Promise<MovieApi> {
   const movieId = queryKey[1]
-  const url = `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`
+  const url = `http://localhost:4000/movies/${movieId}`;
   const options = {
     method: 'GET',
     headers: {
@@ -27,7 +27,7 @@ export async function searchMovies({
   queryKey: string[]
 }): Promise<MoviesApi[]> {
   const searchMovie = queryKey[1]
-  const url = `https://api.themoviedb.org/3/search/movie?query=${searchMovie}`
+  const url = `http://localhost:4000/movies/search?searchTerm=${searchMovie}`;
   const options = {
     method: 'GET',
     headers: {
@@ -48,7 +48,8 @@ export async function listMovies({
   const searchType = queryKey[1]
   const page = queryKey[2]
 
-  const url = `https://api.themoviedb.org/3/movie/${searchType}?language=en-US&page=${page}`
+  const url = `http://localhost:4000/movies/list?type=${searchType}&page=${page}`;
+
   const options = {
     method: 'GET',
     headers: {
