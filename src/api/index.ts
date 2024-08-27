@@ -7,12 +7,13 @@ export async function getMovie({
   queryKey: string[]
 }): Promise<MovieApi> {
   const movieId = queryKey[1]
-  const url = `http://localhost:4000/movies/${movieId}`;
+  const url = `${process.env.REACT_APP_API_BASE_URL}/movies/${movieId}`;
+  const accessToken = JSON.parse(localStorage.getItem("session") ?? "{}").access_token
   const options = {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: `Bearer ${process.env.REACT_APP_ACCESS_TOKEN}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   }
 
@@ -27,12 +28,13 @@ export async function searchMovies({
   queryKey: string[]
 }): Promise<MoviesApi[]> {
   const searchMovie = queryKey[1]
-  const url = `http://localhost:4000/movies/search?searchTerm=${searchMovie}`;
+  const url = `${process.env.REACT_APP_API_BASE_URL}/movies/search?searchTerm=${searchMovie}`;
+  const accessToken = JSON.parse(localStorage.getItem("session") ?? "{}").access_token
   const options = {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: `Bearer ${process.env.REACT_APP_ACCESS_TOKEN}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   }
   return fetch(url, options)
@@ -47,14 +49,13 @@ export async function listMovies({
 }): Promise<{ results: MoviesApi[]; total_pages: number }> {
   const searchType = queryKey[1]
   const page = queryKey[2]
-
-  const url = `http://localhost:4000/movies/list?type=${searchType}&page=${page}`;
-
+  const url = `${process.env.REACT_APP_API_BASE_URL}/movies/list?type=${searchType}&page=${page}`;
+  const accessToken = JSON.parse(localStorage.getItem("session") ?? "{}").access_token
   const options = {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: `Bearer ${process.env.REACT_APP_ACCESS_TOKEN}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   }
 
