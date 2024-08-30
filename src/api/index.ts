@@ -7,8 +7,10 @@ export async function getMovie({
   queryKey: string[]
 }): Promise<MovieApi> {
   const movieId = queryKey[1]
-  const url = `${process.env.REACT_APP_API_BASE_URL}/movies/${movieId}`;
-  const accessToken = JSON.parse(localStorage.getItem("session") ?? "{}").access_token
+  const url = `${process.env.REACT_APP_API_BASE_URL}/movies/${movieId}`
+  const accessToken = JSON.parse(
+    localStorage.getItem('session') ?? '{}'
+  ).access_token
   const options = {
     method: 'GET',
     headers: {
@@ -22,14 +24,70 @@ export async function getMovie({
     .then((res) => res as MovieApi)
 }
 
+export async function getFavMovie({ queryKey }: { queryKey: string[] }) {
+  const userId = queryKey[1]
+  const url = `${process.env.REACT_APP_API_BASE_URL}/favourites/${userId}`
+  const accessToken = JSON.parse(
+    localStorage.getItem('session') ?? '{}'
+  ).access_token
+  //TODO: create a get function for a singular fav movie
+
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }
+  return fetch(url, options) // in progress
+}
+
+export async function getFavMovies({ queryKey }: { queryKey: string[] }) {
+  const userId = queryKey[1]
+  const url = `${process.env.REACT_APP_API_BASE_URL}/favourites/${userId}`
+  const accessToken = JSON.parse(
+    localStorage.getItem('session') ?? '{}'
+  ).access_token
+
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }
+  return fetch(url, options) // in progress
+}
+
+export async function setFavMovie({ queryKey }: { queryKey: string[] }) {
+  const userId = queryKey[1]
+  const url = `${process.env.REACT_APP_API_BASE_URL}/favourites/${userId}`
+  const accessToken = JSON.parse(
+    localStorage.getItem('session') ?? '{}'
+  ).access_token
+
+  const options = {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }
+  return fetch(url, options) // in progress
+
+  
+}
+
 export async function searchMovies({
   queryKey,
 }: {
   queryKey: string[]
 }): Promise<MoviesApi[]> {
   const searchMovie = queryKey[1]
-  const url = `${process.env.REACT_APP_API_BASE_URL}/movies/search?searchTerm=${searchMovie}`;
-  const accessToken = JSON.parse(localStorage.getItem("session") ?? "{}").access_token
+  const url = `${process.env.REACT_APP_API_BASE_URL}/movies/search?searchTerm=${searchMovie}`
+  const accessToken = JSON.parse(
+    localStorage.getItem('session') ?? '{}'
+  ).access_token
   const options = {
     method: 'GET',
     headers: {
@@ -49,8 +107,10 @@ export async function listMovies({
 }): Promise<{ results: MoviesApi[]; total_pages: number }> {
   const searchType = queryKey[1]
   const page = queryKey[2]
-  const url = `${process.env.REACT_APP_API_BASE_URL}/movies/list?type=${searchType}&page=${page}`;
-  const accessToken = JSON.parse(localStorage.getItem("session") ?? "{}").access_token
+  const url = `${process.env.REACT_APP_API_BASE_URL}/movies/list?type=${searchType}&page=${page}`
+  const accessToken = JSON.parse(
+    localStorage.getItem('session') ?? '{}'
+  ).access_token
   const options = {
     method: 'GET',
     headers: {

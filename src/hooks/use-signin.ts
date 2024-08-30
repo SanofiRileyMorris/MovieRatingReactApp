@@ -20,7 +20,7 @@ const useSignIn = (email: string, password: string) => {
       navigate('/error')
     } else {
       console.log('User signed in:', data.user)
-      global.localStorage.setItem("session", JSON.stringify(data.session))
+      global.localStorage.setItem('session', JSON.stringify(data.session))
       navigate('/')
     }
   }

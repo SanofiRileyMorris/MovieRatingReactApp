@@ -4,6 +4,9 @@ import { Loading } from '../Loading/Loading'
 import styles from './Movie.module.css'
 import { StyledButton } from '../StyledMUI/StyledMUI'
 import { useGetMovieQuery } from '../../hooks/queries/useGetMovieQuery'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
+import { useState } from 'react'
 
 export const Movie = () => {
   const navigate = useNavigate()
@@ -11,6 +14,7 @@ export const Movie = () => {
 
   const movieId = location.pathname.split('/')[2]
   const { data: movie, isLoading, isError } = useGetMovieQuery(movieId)
+  const [favourite, setFavourite] = useState(false) // replace with useGetFavMovieQuery
 
   if (isLoading) {
     return <Loading size={60} />
@@ -24,10 +28,37 @@ export const Movie = () => {
     return null
   }
 
+  const FavouriteComponent = () => {
+    if (favourite) {
+      return (
+        <FavoriteIcon
+              onClick={
+                () => setFavourite(!favourite)
+                //get status of favourites to display if favourited or not
+              }
+              sx={{ color: '#d32f2f', margin: '0.5rem 1rem 0 0' }}
+            />
+      )
+    } else {
+      return (
+      <FavoriteBorderOutlinedIcon
+              onClick={
+                () => setFavourite(!favourite)
+                //get status of favourites to display if favourited or not
+              }
+              sx={{ color: '#d32f2f', margin: '0.5rem 1rem 0 0'  }}
+            />
+      )
+    }
+  }
+  
+
   return (
     <div className={styles.movieDetails}>
       <Box className={styles.container}>
+        <div></div>
         <div className={styles.backButton}>
+          <FavouriteComponent  />
           <StyledButton onClick={() => navigate('/')}>Back</StyledButton>
         </div>
         <h1 className={styles.title}>{movie.title}</h1>
