@@ -40,3 +40,19 @@
 .button {
   width: 100%;
 }
+.button:nth-child(2) {
+  margin-top: 1rem;
+}
+
+.signupTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.buttonSignUpWrapper {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}

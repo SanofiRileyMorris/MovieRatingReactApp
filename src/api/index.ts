@@ -74,8 +74,6 @@ export async function setFavMovie({ queryKey }: { queryKey: string[] }) {
     },
   }
   return fetch(url, options) // in progress
-
-  
 }
 
 export async function searchMovies({
